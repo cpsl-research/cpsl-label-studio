@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "model-training"
+version = "0.1.0"
+description = ""
+authors = ["spencer <spencer.hallyburton@duke.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+albumentations = {version="~1.3.1"}
+scikit-learn = {version="^1.1"}
+torch = [
+    {url="https://download.pytorch.org/whl/cu117/torch-1.13.1%2Bcu117-cp310-cp310-linux_x86_64.whl", markers="platform_machine == 'x86_64'"},
+    {url="https://download.pytorch.org/whl/torch-1.13.1-cp310-cp310-manylinux2014_aarch64.whl#sha256=d9fe785d375f2e26a5d5eba5de91f89e6a3be5d11efb497e76705fdf93fa3c2e", markers="platform_machine == 'aarch64'"},
+]
+torchvision = [
+    {url="https://download.pytorch.org/whl/cu117/torchvision-0.14.1%2Bcu117-cp310-cp310-linux_x86_64.whl", markers="platform_machine == 'x86_64'"},
+    {url="https://download.pytorch.org/whl/torchvision-0.14.1-cp310-cp310-manylinux2014_aarch64.whl#sha256=8a9eb773a2fa8f516e404ac09c059fb14e6882c48fdbb9c946327d2ce5dba6cd", markers="platform_machine == 'aarch64'"},
+]
+mmcv = [
+    {url="https://g-b0ef78.1d0d8d.03c0.data.globus.org/packages/mmcv/torch1.13.1_cu11.7/mmcv-2.0.1-cp310-cp310-linux_x86_64.whl", markers="platform_machine == 'x86_64'"},
+    {url="https://g-b0ef78.1d0d8d.03c0.data.globus.org/packages/mmcv/torch1.13.1_cu11.7/mmcv-2.0.1-cp310-cp310-linux_aarch64.whl", markers="platform_machine == 'aarch64'"},
+]
+mmengine = {version="^0.7.3"}
+mmsegmentation = {path="./third_party/mmsegmentation", develop=true}
+mmdet = {path="./third_party/mmdetection/", develop=true}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
