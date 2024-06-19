@@ -1,0 +1,4 @@
+*.JPG
+*.json
+*.sqlite3
+*.env
