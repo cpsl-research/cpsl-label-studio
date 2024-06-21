@@ -1,6 +1,3 @@
-[submodule "model-training/third_party/mmdetection"]
-	path = model-training/third_party/mmdetection
-	url = https://github.com/avstack-lab/mmdetection
-[submodule "model-training/third_party/mmsegmentation"]
-	path = model-training/third_party/mmsegmentation
-	url = https://github.com/avstack-lab/mmsegmentation
+[submodule "model-training/third_party/lib-avstack-core"]
+	path = model-training/third_party/lib-avstack-core
+	url = https://github.com/avstack-lab/lib-avstack-core

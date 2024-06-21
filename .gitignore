@@ -1,3 +1,4 @@
+.install.stamp
 *.JPG
 *.json
 *.sqlite3

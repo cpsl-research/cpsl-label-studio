@@ -1,4 +1,7 @@
-set -e
+#!/usr/bin/env bash
 
-./setup/setup_mmdetection_paths.sh
-./setup/setup_mmsegmentation_paths.sh
+set -x
+
+cd third_party/lib-avstack-core/models
+"./download_mmdet_models.sh"
+"./download_mmseg_models.sh"
