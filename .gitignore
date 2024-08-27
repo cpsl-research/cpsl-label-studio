@@ -1,0 +1,7 @@
+.install.stamp
+*.ipynb_checkpoints
+*.jpg
+*.JPG
+*.json
+*.sqlite3
+*.env

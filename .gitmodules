@@ -1,0 +1,6 @@
+[submodule "model-training/third_party/lib-avstack-core"]
+	path = model-training/third_party/lib-avstack-core
+	url = https://github.com/avstack-lab/lib-avstack-core
+[submodule "model-training/third_party/lib-avstack-api"]
+	path = model-training/third_party/lib-avstack-api
+	url = https://github.com/avstack-lab/lib-avstack-api
