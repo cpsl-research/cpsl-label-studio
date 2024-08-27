@@ -1,6 +1,6 @@
 set -e
 
-DATADIR=mydata
+DATADIR=${1:?"Missing argument for data directory (e.g., data_labelstudio)"}
 
 if [ ! -d $DATADIR ]; then
 	mkdir -p $DATADIR

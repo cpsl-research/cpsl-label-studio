@@ -1,5 +1,6 @@
 .install.stamp
 *.ipynb_checkpoints
+__pycache__
 *.jpg
 *.JPG
 *.json

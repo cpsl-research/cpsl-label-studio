@@ -9,7 +9,7 @@ readme = "README.md"
 python = "~3.10"
 setuptools = "~69.5.1"
 lib-avstack-core = {path="./third_party/lib-avstack-core", extras = ["percep"], develop=true}
-# lib-avstack-core = {path="./third_party/lib-avstack-core", develop=true}
+lib-avstack-api = {path="./third_party/lib-avstack-api", develop=true}
 
 [tool.poetry.dev-dependencies]
 gdown = "^4.6.4"
