@@ -2,7 +2,7 @@
 
 ## Installation
 
-This project is managed with `poetry`. After installing poetry, run `poetry install` (or `make install`) to install the project.
+This project is managed with `uv`. After installing uv, run `make install` to install the project.
 
 ## Prepare a dataset for labeling
 

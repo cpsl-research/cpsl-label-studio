@@ -2,6 +2,6 @@
 
 set -x
 
-cd third_party/lib-avstack-core/models
+cd third_party/avstack-core/models
 "./download_mmdet_models.sh"
 "./download_mmseg_models.sh"

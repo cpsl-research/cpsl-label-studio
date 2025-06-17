@@ -5,7 +5,7 @@ QuickStart guide for labeling data using [`label-studio`][label-studio].
 
 ## Labeling Existing Data
 
-You're able to label data without installing anything via [`poetry`][poetry]. 
+You're able to label data without installing anything via [`uv`][UV]. 
 
 ### Installation Requirements
 
@@ -34,6 +34,7 @@ After creating the project, you're able to import new data via `Go to import`. U
 Once you have a labeled dataset, you can also train a model using this repository. See the [model training readme][model-training-readme] for more information!
 
 
+[uv]: https://docs.astral.sh/uv/
 [poetry]: https://github.com/python-poetry/poetry
 [docker]: https://www.docker.com/
 [label-studio]: https://github.com/HumanSignal/label-studio
