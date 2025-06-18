@@ -4,7 +4,7 @@ set -x
 
 MODEL=${1:?"missing arg 1 for MODEL"}
 
-MMDET_DIR="../third_party/lib-avstack-core/third_party/mmdetection/"
+MMDET_DIR="../third_party/avstack-core/third_party/mmdetection/"
 cd $MMDET_DIR
 
 if [ $MODEL = "fasterrcnn" ]; then
