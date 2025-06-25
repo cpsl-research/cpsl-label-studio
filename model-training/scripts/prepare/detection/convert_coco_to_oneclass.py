@@ -1,27 +1,11 @@
 import os
 import json
-import glob
 import argparse
 import numpy as np
 
 
-def get_image_files(root, dir_name, pattern):
-    patterns = [os.path.join(root, dir_name, pattern.upper()), os.path.join(root, dir_name, pattern.lower())]
-    return [filename for p in patterns for filename in glob.glob(p)]
-
-
 def main(args):
     np.random.seed(args.seed)
-
-    # perform train-test-split
-    all_images = get_image_files(args.root, os.path.join(args.input, "images"), "*.jpg")
-    n_train = int(len(all_images) * args.pct_train)
-    idx_train = np.random.choice(list(range(n_train)), size=n_train, replace=False)
-    idx_val = list(set(range(len(all_images))).difference(set(idx_train)))
-    train_images = [all_images[i] for i in idx_train]
-    val_images = [all_images[i] for i in idx_val]
-    img_dict = {"train": train_images, "val": val_images}
-    idxs = {"train": idx_train, "val": idx_val}
 
     # load in the results json
     with open(os.path.join(args.root, args.input, "result.json"), "r") as f:
@@ -31,16 +15,38 @@ def main(args):
         "val":   {"images": [], "categories": [], "annotations": [], "info": []},
     }
 
+    # get paths to images and id to filename map
+    all_images = {
+        img["id"]: os.path.join(args.root, args.input, img["file_name"]) for img in result["images"]
+    }
+    idx_to_id = {i: img["id"] for i, img in enumerate(result["images"])}
+
+    # perform train-test-split on the GLOB files in order
+    n_train = int(len(all_images) * args.pct_train)
+    idx_train = np.random.choice(list(range(n_train)), size=n_train, replace=False)
+    idx_val = list(set(range(len(all_images))).difference(set(idx_train)))
+    idx_splits = {"train": idx_train, "val": idx_val}
+    ids_splits = {
+        "train": [idx_to_id[i] for i in idx_train],
+        "val": [idx_to_id[i] for i in idx_val]
+    }
+
     # split annotation information
+    n_annos = 0
+    n_anno_train = 0
+    n_anno_val = 0
     for anno in result["annotations"]:
         # modify class of annotation to switch to oneclass
         anno["category_id"] = 0
+        n_annos += 1
 
-        # account for annotation
-        if anno["image_id"] in idxs["train"]:
+        # map annotations to the correct split
+        if anno["image_id"] in ids_splits["train"]:
             result_out["train"]["annotations"].append(anno)
-        elif anno["image_id"] in idxs["val"]:
+            n_anno_train += 1
+        elif anno["image_id"] in ids_splits["val"]:
             result_out["val"]["annotations"].append(anno)
+            n_anno_val += 1
         else:
             raise RuntimeError("Annotation unaccounted for")
 
@@ -48,19 +54,18 @@ def main(args):
     for split in ["train", "val"]:
         out_folder = os.path.join(args.root, args.output, split, "images")
         os.makedirs(out_folder, exist_ok=True)
+
         # process images for split
-        for idx, img in enumerate(img_dict[split]):
+        for idx_img in idx_splits[split]:
             # link the files
-            dst = os.path.join(out_folder, img.split("/")[-1])
+            img_path = all_images[idx_to_id[idx_img]]
+            dst = os.path.join(out_folder, img_path.split("/")[-1])
             if os.path.exists(dst):
                 os.unlink(dst)
-            os.symlink(img, dst)
+            os.symlink(img_path, dst)
 
-            # update the entries in the result file
-            idx_image = idxs[split][idx]
-            image_metadata = result["images"][idx_image]
-            assert image_metadata["id"] == idx_image
-            result_out[split]["images"].append(image_metadata)
+            # update the metadata
+            result_out[split]["images"].append(result["images"][idx_img])
 
         # set class categories -- only one category
         result_out[split]["categories"] = [{"id": 0, "name": "car"}]
@@ -72,12 +77,12 @@ def main(args):
             json.dump(result_out[split], f)
 
     # print what we are about to do
-    print(f"{len(all_images)} images found -- split into {len(train_images)} train, {len(val_images)} val")
+    print(
+        f"{len(all_images)} images, {n_annos} annotations found, split into:\n"
+        f"    {len(idx_train)} train images with {n_anno_train} annotations\n"
+        f"    {len(idx_val)} val images with {n_anno_val} annotations"
+    )
 
-    #
-    # TODO: print out the number of bounding boxes (annotations) in each set
-    #
-    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
