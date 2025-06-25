@@ -4,6 +4,8 @@ __pycache__
 *.jpg
 *.JPG
 *.png
+*.mp4
+*_calibration.txt
 *.json
 *.sqlite3
 *.env
